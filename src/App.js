@@ -1,25 +1,39 @@
-import logo from './logo.svg';
+import React, { Component } from 'react'
+
+
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Letter from './Letter'
+
+const SIZE = 24
+const SYMBOLS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+const LETTERS = SYMBOLS.split('')
+
+console.log(LETTERS)
+class App extends Component {
+
+
+
+
+
+handleLetterClick(letter){
+  console.log(letter, 'clicked')
+}
+
+
+render(){
+
+  return(
+    <div className="clavier">
+      {LETTERS.map((letter, index) => (
+        <Letter letter={letter} key={index} index={index} feedback="not_use" onClick={this.handleLetterClick}/>
+      ))}
+    </div>  
+  )
+  
+}
+  
+
 }
 
 export default App;
