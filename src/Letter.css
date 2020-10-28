@@ -4,8 +4,10 @@
     width:20px;
     height: 20px;
     text-align: center;
+    cursor: pointer;
 }
 
 .letter.use{
     background-color: rgb(185, 185, 185);
+    cursor:initial;
 }

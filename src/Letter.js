@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 import './Letter.css'
 
 const Letter = ({letter, feedback, index, onClick}) => (
-    <div className={`letter ${feedback}`} 
-         onClick={() => onClick(index)}>
-        <span>
-            {feedback === 'use' ? '_' : letter}
+    <div className={`letter ${feedback} ${feedback === 'use' ? 'disable' : ''}`} 
+         onClick={() => onClick(letter)}>
+        <span id={index}>
+            {letter}
         </span>
     </div>
 )
