@@ -15,7 +15,6 @@ const Game = ({ letter, index, status }) => (
 )
 
 Game.protoTypes = {
-    shuffleWord: PropTypes.array.isRequired,
     status: PropTypes.oneOf([
         'hidden',
         'visible'

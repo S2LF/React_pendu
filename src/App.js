@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import shuffle from 'lodash.shuffle'
+import difference from 'lodash.difference'
 
 
 import './App.css';
@@ -20,6 +21,13 @@ class App extends Component {
     status: 'hidden'
   }
 
+  defaultState = {
+    guesses: 0,
+    tried: [],
+    shuffleWord : this.generateWord(),
+    status: 'hidden'
+  }
+
 generateWord(){
   const word = shuffle(WORDS)
   const wordArr = word[0].split('')
@@ -28,13 +36,9 @@ generateWord(){
 
 // Arrow fx for binding
 handleLetterClick = letter => {
-  const { tried, guesses, shuffleWord, status } = this.state
+  const { tried, guesses } = this.state
 
   const newGuesses = guesses+1
-
-  if(shuffleWord.includes(letter))
-      this.setStatus({status: 'visible'})
-
 
   // Gestion du clavier
   tried.push(letter)
@@ -44,28 +48,38 @@ handleLetterClick = letter => {
   })
 }
 
+getStatusForLetter(letter){
+  const { shuffleWord, tried } = this.state
+    // console.log(shuffleWord)
+    // console.log(tried)
+    if(shuffleWord.includes(letter) && tried.includes(letter)){
+      return 'visible'
+    }
+  return 'hidden'
+}
 
 getFeedbackForLetter(letter){
   const { tried } = this.state
   const used_letter = tried.includes(letter)
-  // console.log(letter, used_letter)
-  // console.log(tried)
+  
   if(used_letter)
     return 'use'
   if(!used_letter)
     return 'not_use'
-  
 }
 
+
 render(){
-  const { guesses, shuffleWord, status} = this.state
+  const { guesses, shuffleWord, tried } = this.state
+  const won = difference(shuffleWord, tried).length === [].length
   return(
     <div>        
     <div className="word">
       <h1>Devine le mot :&nbsp;
         { shuffleWord.map((letter, index) => (
-          <Game shuffleWord={shuffleWord} status={status} letter={letter} key={index} />
-        ))}</h1>
+          <Game status={this.getStatusForLetter(letter)} letter={letter} key={index} />
+        ))}
+      </h1>
     </div> 
         <GuessCount guesses={guesses} />  
       <div className="clavier">
@@ -77,6 +91,9 @@ render(){
           onClick={this.handleLetterClick}/>
           ))}
       </div>  
+      {/* {won && <div className="won" onClick={ () => onClick(window.location.reload())}><h1>GAGNÉ !!</h1></div>} */}
+      {won && <div className="won" ><h1>GAGNÉ !!</h1></div>}
+
     </div>
   )
   
